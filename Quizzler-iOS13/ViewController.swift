@@ -15,10 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var falseButton: UIButton!
     @IBOutlet weak var trueButton: UIButton!
     
-   let quiz = [
-        "Q1",
-        "Q2",
-        "Q3"
+   let quizArray = [
+        ["Q1", "True"],
+        ["Q2", "False"],
+        ["Q3", "True"]
    ]
     
     var questionNumber = 0
@@ -30,12 +30,26 @@ class ViewController: UIViewController {
     }
 
     @IBAction func answerButtonPressed(_ sender: UIButton) {
-        questionNumber += 1
+        
+        let userAnswer = sender.currentTitle // True, False
+        let actualAnswer = quizArray[questionNumber][1]
+        
+        if userAnswer == actualAnswer {
+            print("Right!")
+        } else {
+            print("Wrong!")
+        }
+        
+        if questionNumber + 1 < quizArray.count {
+            questionNumber += 1
+        } else {
+            questionNumber = 0
+        }
         updateUI()
     }
     
     func updateUI(){
-        questionLabel.text = quiz[questionNumber]
+        questionLabel.text = quizArray[questionNumber][0]
     }
 }
 
