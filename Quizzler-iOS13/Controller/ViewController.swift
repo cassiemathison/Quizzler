@@ -28,29 +28,25 @@ class ViewController: UIViewController {
         
         let userAnswer = sender.currentTitle // True, False
         let actualQuestion = quizArray[questionNumber]
-        quizBrain.checkAnswer(userAnswer!)
+        let userGotItRight = quizBrain.checkAnswer(userAnswer!)
         
-        if userAnswer == actualAnswer {
+        if userGotItRight {
             sender.backgroundColor = UIColor.green
         } else {
             sender.backgroundColor = UIColor.red
         }
         
-        if questionNumber + 1 < quizArray.count {
-            questionNumber += 1
-        } else {
-            questionNumber = 0
-        }
+        quizBrain.nextQuestion()
         
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
                 
     }
     
     @objc func updateUI(){
-        questionLabel.text = quizArray[questionNumber].text
+        questionLabel.text = quizBrain.getQuestionText()
         trueButton.backgroundColor = UIColor.clear
         falseButton.backgroundColor = UIColor.clear
-        progressBar.progress = Float(questionNumber + 1)/Float(quizArray.count)
+        progressBar.progress = quizBrain.getProgress()
     }
     
     
